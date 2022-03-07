@@ -31,3 +31,5 @@ Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
 Route::post('/invoices', [InvoiceController::class, 'save_and_send']);
 Route::post('/save_draft', [InvoiceController::class, 'save_draft'])->name('save_draft');
 Route::post('/update_invoice', [InvoiceController::class, 'update_invoice'])->name('update_invoice');
+
+Route::post('/delete_invoice', [InvoiceController::class, 'delete'])->name('delete');

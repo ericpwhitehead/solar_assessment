@@ -86,4 +86,10 @@ class InvoiceController extends Controller
 
         return back();
     }
+
+    public function delete(Request $request)
+    {
+        Invoice::where('invoice_id', $request->invoice_id)->firstorfail()->delete();
+        return redirect('/invoices');
+    }
 }

@@ -30,7 +30,7 @@
         color: #DEE3F9;
     }
     
-    .filterGroups, .addNewItem {
+    .filterGroups, .addNewItem, .deleteInvoice {
         cursor: pointer;
     }
 </style>
@@ -183,7 +183,7 @@
                         </button>
                     </div>
                         <div class="col-span-7 md:col-span-7">
-                            <button type="submit" formaction="{{ route('save_draft') }}" class="float-right bg-gray-500 text-white px-4 py-2 rounded font-medium">Save as Draft</button>
+                                <span class="deleteInvoice float-right bg-red-500 text-white px-4 py-2 rounded font-medium">Delete</span>
                         </div>
                         <div class="col-span-3 md:col-span-3">
                             <button formaction="{{ route('update_invoice') }}" type="submit" class="bg-indigo-800 text-white px-4 py-2 rounded font-medium">Save Changes</button>
@@ -225,6 +225,19 @@
                     $(`div#editInvoiceModal input#${key}`).val(selectedInvoice[0][key]);
                 });
             });
+
+            $('.deleteInvoice').click(function() {
+                console.log('delete this');
+                const _token = $("input[name='_token']").val();
+                $.ajax({
+                    type:'POST',
+                    url:`/delete_invoice`,
+                    data:{_token, invoice_id: $(`.filterGroups`).attr('id')},
+                    success:function(){
+                        location.reload();
+                    }
+                });
+            })
         });
     </script>
 </div>
