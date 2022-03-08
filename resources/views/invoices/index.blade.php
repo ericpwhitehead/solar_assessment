@@ -30,7 +30,7 @@
         color: #DEE3F9;
     }
     
-    .filterGroups, .addNewItem, .deleteInvoice {
+    .filterGroups, .addNewItem, .deleteInvoice, .markAsPaid {
         cursor: pointer;
     }
 </style>
@@ -62,7 +62,7 @@
                             <p>#<span class="text-gray font-bold">{{$invoice->invoice_id}} </span></p>
                     </div>
                     <div>
-                        <p>Due <span class="text-gray">{{$invoice->payment_due}} </span></p>
+                        <p>Due <span class="text-gray">{{explode(" ", $invoice->payment_due)[0]}}</span></p>
                     </div>
                     <div>
                         <p><span class="text-gray">{{$invoice->to_name}} </span></p>
@@ -182,9 +182,12 @@
                             Discard
                         </button>
                     </div>
-                        <div class="col-span-7 md:col-span-7">
-                                <span class="deleteInvoice float-right bg-red-500 text-white px-4 py-2 rounded font-medium">Delete</span>
+                        <div class="col-span-4 md:col-span-4">
+                                <span class="markAsPaid float-right bg-orange-500 text-white px-4 py-2 rounded font-medium">Mark as paid</span>
                         </div>
+                        <div class="col-span-3 md:col-span-3">
+                            <span class="deleteInvoice float-right bg-red-500 text-white px-4 py-2 rounded font-medium">Delete</span>
+                    </div>
                         <div class="col-span-3 md:col-span-3">
                             <button formaction="{{ route('update_invoice') }}" type="submit" class="bg-indigo-800 text-white px-4 py-2 rounded font-medium">Save Changes</button>
                         </div>
@@ -198,6 +201,8 @@
         $(document).ready(function () {
 
             if (window.location.hash == '#validate') $('#newInvoiceModal').removeClass('invisible');
+
+            if (window.location.hash == '#validateEdit') $('#editInvoiceModal').removeClass('invisible');
             
             $('.openNewModal').on('click', function (e) {
                 $('#newInvoiceModal').removeClass('invisible');
@@ -223,6 +228,17 @@
                 
                 Object.keys(selectedInvoice[0]).forEach(key => {
                     $(`div#editInvoiceModal input#${key}`).val(selectedInvoice[0][key]);
+                });
+            });
+            $('.markAsPaid').click(function() {
+                const _token = $("input[name='_token']").val();
+                $.ajax({
+                    type:'POST',
+                    url:`/paid_invoice`,
+                    data:{_token, invoice_id: $(`.filterGroups`).attr('id')},
+                    success:function(){
+                        location.reload();
+                    }
                 });
             });
 
