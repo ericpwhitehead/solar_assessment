@@ -17,6 +17,7 @@ class InvoiceController extends Controller
             'invoices' => $invoices
         ]);
     }
+
     public function save_draft(Request $request)
     {
         $issue_date = $request->issue_date;

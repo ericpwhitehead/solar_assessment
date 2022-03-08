@@ -26,6 +26,8 @@ Route::post('/login', [LoginController::class, 'store']);
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
 
+
+
 Route::get('/invoices', [InvoiceController::class, 'index'])->name('invoices');
 Route::post('/invoices', [InvoiceController::class, 'save_and_send']);
 Route::post('/save_draft', [InvoiceController::class, 'save_draft'])->name('save_draft');
